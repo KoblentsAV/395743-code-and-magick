@@ -12,30 +12,38 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', 120, 65);
 
   var max = -1;
-  var maxIndex = -1;
 
   for (var i = 0; i < times.length; i++) {
     var time = times[i];
     if (time > max) {
       max = time;
-      maxIndex = i;
     }
   }
 
-  var histogramHeight = -150; // px
-  var step = histogramHeight / (max - 0); // px
+  var histogramHeight = -150;
+  var step = histogramHeight / (max - 0);
 
-  ctx.fillText('Худшее время: ' + Math.floor(max) + 'мс у игрока ' + names[maxIndex], 120, 90);
-
-  var initialX = 180; // px
-  var initialY = 275; // px
-  var initialName = 115; // px
-  var indent = 70; // px
-  var barWidth = 50; // px
+  var initialX = 160;
+  var initialY = 255;
+  var initialName = 272;
+  var initialTime = 98;
+  var indent = 90;
+  var barWidth = 40;
 
   for (i = 0; i < times.length; i++) {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(initialX + indent * i, initialY, barWidth, times[i] * step);
-    ctx.fillText(names[i], initialX + indent * i, initialName);
+    if (names[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+      ctx.fillRect(initialX + indent * i, initialY, barWidth, times[i] * step);
+      ctx.fillStyle = 'black';
+      ctx.fillText(names[i], initialX + indent * i, initialName);
+      ctx.fillText(Math.floor(times[i]), initialX + indent * i, initialTime);
+
+    } else {
+      ctx.fillStyle = 'rgba(51, 51, 255, ' + Math.random() + '0)';
+      ctx.fillRect(initialX + indent * i, initialY, barWidth, times[i] * step);
+      ctx.fillStyle = 'black';
+      ctx.fillText(names[i], initialX + indent * i, initialName);
+      ctx.fillText(Math.floor(times[i]), initialX + indent * i, initialTime);
+    }
   }
 };
